@@ -77,7 +77,7 @@ Do this on the server, in your own account.
    tmux new -A -s vibe
    ```
 
-   Inside tmux your session keeps running when your connection drops, and the same command brings you back to it. Ctrl+B and then D leaves it running and returns you to the plain shell. The name `vibe` is used again in step 3.
+   Inside tmux your session keeps running when your connection drops, and the same command brings you back to it. Ctrl+B and then D leaves it running and returns you to the plain shell. The bar at the bottom of the terminal starts with the name of the session you are in: `[vibe]`. That name is used again in step 3.
 
 3. **Start Vibe in a work folder:**
 
@@ -154,7 +154,8 @@ as described on https://docs.mistral.ai/studio/audio/speech-to-text/transcribe-i
 
 Each time I have finished a sentence, it types that sentence into a tmux session with
 "tmux send-keys -t SESSION -l" and then sends Enter. The session is "vibe" unless I pass
---session NAME. With --no-enter it leaves the text in the input box for me to send.
+--session NAME. With --no-enter it leaves the text in the input box for me to send, with a
+space after each sentence.
 
 It prints what it hears to standard error, so that I can follow it on my laptop.
 
@@ -164,24 +165,34 @@ It is started over ssh without a login shell ("ssh hackathon bin/ears"), so it m
 rely on PATH: uv is in ~/.local/bin. Make the file executable.
 
 Test it with the recording ~/mic-test.pcm, typing into a tmux session named "ears-test"
-that you make for the test, and not into "vibe". Show me what arrived there.
+that you make for the test, and not into "vibe". Make that session detached, do not switch
+my terminal to it, and remove it when the test is done. Show me what arrived there.
 ```
 
 If you signed in through the browser, there is no key in `~/.vibe/.env` yet. Make one as in step 2 and put it in that file as `MISTRAL_API_KEY=your_key`.
 
 ### 3.4 Talk
 
+`ears` types into whatever is in front in the tmux session `vibe`. So look at your terminal on the server first: the bar at the bottom starts with `[vibe]`, and Vibe is on screen. If a plain shell is there instead, your words are run as commands.
+
+Then, on your laptop, in a second window:
+
 ```
-ffmpeg -loglevel error -f dshow -i audio="NAME" -ac 1 -ar 16000 -f s16le - | ssh hackathon bin/ears
+ffmpeg -loglevel error -f dshow -i audio="NAME" -ac 1 -ar 16000 -f s16le - | ssh hackathon bin/ears --no-enter
 ```
+
+With `--no-enter` what you say waits in Vibe's input box and you press Enter yourself. Begin that way. Without it, every finished sentence is sent at once.
 
 Ctrl+C stops it.
 
+- The window on your laptop shows what `ears` hears. If text shows there and nothing arrives in Vibe, check on the server that a session named `vibe` exists: `tmux ls`.
 - While it runs, everything your microphone picks up goes to the server and on to Mistral, including the people next to you. Stop it when you are not dictating.
 - What you say is typed into Vibe as if you had typed it. Vibe still asks before it runs a command, unless you switched that off with Shift+Tab. Leave it on while you speak.
 - If the text lags behind on Windows, put `-audio_buffer_size 50` before `-i`.
 
-**Check.** You say "list the files in this folder", the sentence appears in Vibe, and Vibe answers.
+**Check.** You say "list the files in this folder", the sentence appears in Vibe's input box, you press Enter, and Vibe answers.
+
+**Lost in tmux?** `tmux ls` lists the sessions. Ctrl+B and then S lets you choose one. `tmux kill-session -t NAME` removes one, with whatever runs in it. If Vibe ended up outside the session `vibe`, the simplest way back is `tmux kill-server`, which removes all sessions, followed by `tmux new -A -s vibe` and `cd ~/work && vibe --continue`, which picks up your last conversation.
 
 ## What was tried
 
@@ -189,8 +200,8 @@ On 21 November 2026, from a Windows laptop with ffmpeg 8.1:
 
 | | |
 |---|---|
-| **Works** | An account made by hand with a key, the login on port 22180 with the fingerprint above, and sudo. Five seconds of test tone, sent with the command of 3.2, arrived on the server unchanged from Command Prompt and from Git Bash, and came back unchanged. Windows PowerShell 5.1 did change it. |
-| **Read, not run** | The Vibe installer and its sign-in screens: nothing is installed on the server before the hackathon starts (rule 1). That the Linux package has no recording was found by looking inside the package of version 3.1.4. |
-| **Not tried** | A real person getting an account through the Google login. A real microphone. The commands for macOS and Linux. `ears`, which does not exist yet. Whether a key made for the Vibe CLI may also call realtime transcription. |
+| **Works** | Step 1: an account through the Google login and the "Hackathon server" card, an account made by hand with a key, the login on port 22180 with the fingerprint above, and sudo. Step 2: the installer (Vibe 3.1.4) and the sign-in with an API key. Step 3.2: five seconds of speech from a laptop microphone arrived on the server. A test tone arrived unchanged from Command Prompt and from Git Bash; Windows PowerShell 5.1 did change it. Step 3.3: a Vibe session built `ears` from the prompt above. Fed with that recording, also at the speed of speech and without a login shell, it typed the right sentence into a test session, with the key from `~/.vibe/.env`. |
+| **Read, not run** | That the Linux package has no recording: found by looking inside the package of version 3.1.4. |
+| **Not tried** | Step 3.4: speaking live into a running Vibe session. The sign-in through the browser. The commands for macOS and Linux. |
 
 If a step fails for you, say so in an issue on this repository, with the command and what it answered.
