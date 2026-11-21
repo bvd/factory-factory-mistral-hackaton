@@ -2,6 +2,8 @@
 
 A proposal for the Mistral hackathon. Read the first screen to decide whether you want to join.
 
+The same proposal as a web page, with the drawings laid out by hand: https://bvd.github.io/factory-factory-mistral-hackaton/
+
 ## In one minute
 
 - **What we build.** A way for a team to work together on one Linux server: each person in an own Mistral Vibe session, connected by a messaging system, with an agent that negotiates the interfaces between everyone's parts.
