@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Proposal for the Mistral hackathon: a team of agents organised as a traditional IT department, with a model gateway that keeps sensitive data with EU models.">
+<title>Factoryfactory Hackathon Proposal</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+/* Layout: one reading column; the two drawings break out wider and scroll inside their own frame on a phone. */
+:root {
+  --bg: #f1f5f7;
+  --surface: #ffffff;
+  --fg: #13212b;
+  --muted: #536571;
+  --line: #b7c5ce;
+  --primary: #1b6a86;
+  --primary-soft: #e0eef4;
+  --accent: #9a5a08;
+  --accent-soft: #f7ead3;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --text: Inter, "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1820; --surface: #15232d; --fg: #e4edf2; --muted: #9eb1bd; --line: #3b4f5c;
+    --primary: #74c0da; --primary-soft: #153443; --accent: #f1b75c; --accent-soft: #3d2e13;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1820; --surface: #15232d; --fg: #e4edf2; --muted: #9eb1bd; --line: #3b4f5c;
+  --primary: #74c0da; --primary-soft: #153443; --accent: #f1b75c; --accent-soft: #3d2e13;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font: 400 16px/1.6 var(--text); }
+.page { max-width: 1040px; margin: 0 auto; padding-block: 40px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 40px; }
+.col { max-width: 68ch; display: flex; flex-direction: column; gap: 14px; }
+.eyebrow { font: 500 13px/1 var(--text); letter-spacing: .08em; text-transform: uppercase; color: var(--primary); margin: 0; }
+h1 { font: 600 clamp(28px, 4.4vw, 40px)/1.15 var(--display); margin: 0; text-wrap: balance; }
+h2 { font: 600 22px/1.25 var(--display); margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.lead { font-size: 18px; color: var(--fg); }
+ul, ol { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 8px; }
+strong { font-weight: 600; }
+figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.frame { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow-x: auto; }
+.frame svg { display: block; width: 100%; min-width: 820px; height: auto; }
+figcaption { color: var(--muted); font-size: 14px; max-width: 78ch; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--line); }
+th { font: 500 13px/1.2 var(--text); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+td.n { font: 600 16px/1.5 var(--display); color: var(--primary); width: 2.2em; font-variant-numeric: tabular-nums; }
+.note { color: var(--muted); font-size: 15px; }
+/* drawings */
+.dg text { font-family: Inter, "Segoe UI", system-ui, sans-serif; fill: var(--fg); }
+.dg .t { font-size: 13px; font-weight: 600; }
+.dg .s { font-size: 12px; fill: var(--muted); }
+.dg .c { font-size: 12px; font-weight: 500; }
+.dg .lab { font-size: 11.5px; fill: var(--muted); }
+.dg .acc { fill: var(--accent); font-weight: 600; }
+.dg .pri { fill: var(--primary); }
+.dg .outer { fill: none; stroke: var(--line); stroke-width: 1.2; }
+.dg .box { fill: var(--bg); stroke: var(--line); stroke-width: 1.2; }
+.dg .inner { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; }
+.dg .box-p { fill: var(--primary-soft); stroke: var(--primary); stroke-width: 1.6; }
+.dg .chip { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; }
+.dg .chip-a { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.4; }
+.dg .dash { stroke-dasharray: 5 4; }
+.dg .arr { fill: none; stroke: var(--muted); stroke-width: 1.4; }
+.dg .arr-p { fill: none; stroke: var(--primary); stroke-width: 1.6; }
+.dg .ah { fill: var(--muted); }
+.dg .ah-p { fill: var(--primary); }
+</style>
+<style>body { margin: 0; } img { max-width: 100%; } a { color: var(--primary); }</style>
+</head>
+<body>
+<div class="page">
+  <header class="col">
+    <p class="eyebrow">Proposal for the hackathon</p>
+    <h1>An agent organisation with the roles and records of a traditional IT department</h1>
+    <p class="lead">We work together on one Linux server, each in an own session, and let an agent negotiate the interfaces between our parts. Around it we build the roles of a traditional IT organisation as agents, each with a person behind it, and keep the administration that a security audit asks for. The result is a model we can copy to build a concrete product.</p>
+  </header>
+
+  <section class="col">
+    <h2>The rules</h2>
+    <ol>
+      <li><strong>We start on an empty server.</strong> A fresh Linux machine with git and an account for each of us. Everything else is built during the hackathon.</li>
+      <li><strong>We use only Mistral models</strong>, as far as that is possible within the time we have. This holds for our own sessions and for every agent we build.</li>
+    </ol>
+    <p class="note">The design leaves room to plug in other models for a task that needs them, but only behind the sanitation layer described below.</p>
+  </section>
+
+  <section class="col">
+    <h2>Is this for you?</h2>
+    <ul>
+      <li><strong>What you would do.</strong> Build one of the parts (sessions, messaging, the modeling agent, a role agent, the administration), or own one of the roles and shape how its agent behaves.</li>
+      <li><strong>What we have at the end.</strong> A working collaboration model, used to build one concrete product, and written down so it can be copied.</li>
+      <li><strong>What you need.</strong> A laptop with an ssh key. The server is ready.</li>
+    </ul>
+  </section>
+
+  <figure>
+    <div class="frame">
+      <svg class="dg" viewBox="0 0 980 650" role="img" aria-label="Each hacker has an own Vibe session on the server. The sessions publish to and receive from a messaging system that stores every message. The agile modeling agent, driven by one hacker, collects interface definitions from the messages, maps them, reports the impact of changes and writes the result to GitHub. IT roles run as agents that subscribe to topics, publish findings and record their work in GLPI. Security reviews everything.">
+        <defs>
+          <marker id="ah1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0 L10 5 L0 10 z"/></marker>
+          <marker id="ahp1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-p" d="M0 0 L10 5 L0 10 z"/></marker>
+        </defs>
+
+        <rect class="outer" x="10" y="10" width="960" height="630" rx="14"/>
+        <text class="s" x="28" y="32">Linux server (VM) with internet · one login for the server, the board and GLPI</text>
+
+        <!-- one hacker drives the agent -->
+        <path class="arr-p" d="M145 90 V66 H840 V88" marker-end="url(#ahp1)"/>
+        <text class="lab pri" x="492" y="60" text-anchor="middle">one hacker drives the agent and reads its job reports</text>
+
+        <!-- sessions -->
+        <rect class="box" x="30" y="90" width="230" height="50" rx="8"/>
+        <text class="t" x="46" y="111">Hacker 1</text>
+        <text class="s" x="46" y="128">own account, own Vibe session</text>
+        <rect class="box" x="30" y="150" width="230" height="50" rx="8"/>
+        <text class="t" x="46" y="171">Hacker 2</text>
+        <text class="s" x="46" y="188">own account, own Vibe session</text>
+        <rect class="box" x="30" y="210" width="230" height="50" rx="8"/>
+        <text class="t" x="46" y="231">Hacker 3</text>
+        <text class="s" x="46" y="248">own account, own Vibe session</text>
+
+        <line class="arr" x1="262" y1="115" x2="348" y2="115" marker-start="url(#ah1)" marker-end="url(#ah1)"/>
+        <line class="arr" x1="262" y1="175" x2="348" y2="175" marker-start="url(#ah1)" marker-end="url(#ah1)"/>
+        <line class="arr" x1="262" y1="235" x2="348" y2="235" marker-start="url(#ah1)" marker-end="url(#ah1)"/>
+        <text class="lab" x="305" y="107" text-anchor="middle">publish</text>
+        <text class="lab" x="305" y="130" text-anchor="middle">receive</text>
+
+        <!-- messaging -->
+        <rect class="box-p" x="350" y="90" width="280" height="170" rx="8"/>
+        <text class="t" x="366" y="114">Messaging</text>
+        <text class="s" x="366" y="136">topics work like conversations</text>
+        <text class="s" x="366" y="154">every message stored and replayable</text>
+        <text class="s" x="366" y="172">broadcasts reach everyone</text>
+        <rect class="inner" x="366" y="188" width="248" height="56" rx="6"/>
+        <text class="t" x="378" y="210">Message board in the browser</text>
+        <text class="s" x="378" y="228">live messages and the full history</text>
+
+        <!-- modeling agent -->
+        <rect class="box-p" x="720" y="90" width="240" height="100" rx="8"/>
+        <text class="t" x="736" y="114">Agile modeling agent</text>
+        <text class="s" x="736" y="134">collects interface definitions</text>
+        <text class="s" x="736" y="151">maps them to each other</text>
+        <text class="s" x="736" y="168">signals the impact of a change</text>
+
+        <line class="arr" x1="632" y1="120" x2="718" y2="120" marker-end="url(#ah1)"/>
+        <text class="lab" x="675" y="113" text-anchor="middle">interfaces</text>
+        <line class="arr" x1="718" y1="160" x2="632" y2="160" marker-end="url(#ah1)"/>
+        <text class="lab" x="675" y="175" text-anchor="middle">impact</text>
+
+        <rect class="box" x="720" y="214" width="240" height="46" rx="8"/>
+        <text class="t" x="736" y="233">GitHub</text>
+        <text class="s" x="736" y="250">interfaces and object models</text>
+        <line class="arr" x1="840" y1="190" x2="840" y2="212" marker-end="url(#ah1)"/>
+        <text class="lab" x="832" y="206" text-anchor="end">writes, as one participant</text>
+
+        <!-- roles -->
+        <line class="arr" x1="450" y1="262" x2="450" y2="308" marker-end="url(#ah1)"/>
+        <text class="lab" x="442" y="290" text-anchor="end">subscribe to topics</text>
+        <line class="arr" x1="530" y1="308" x2="530" y2="262" marker-end="url(#ah1)"/>
+        <text class="lab" x="538" y="290">findings and advice</text>
+
+        <rect class="box" x="30" y="310" width="930" height="140" rx="8"/>
+        <text class="t" x="46" y="334">IT roles: each one an agent, with a person behind it</text>
+        <text class="lab acc" x="944" y="334" text-anchor="end">Security reviews and advises on everything</text>
+        <text class="s" x="46" y="352">Person away: the agent keeps the work moving. Person back: catches up and sharpens the agent.</text>
+
+        <rect class="chip" x="46" y="366" width="140" height="30" rx="15"/><text class="c" x="116" y="385" text-anchor="middle">Product owner</text>
+        <rect class="chip" x="195.6" y="366" width="140" height="30" rx="15"/><text class="c" x="265.6" y="385" text-anchor="middle">Scrum master</text>
+        <rect class="chip" x="345.2" y="366" width="140" height="30" rx="15"/><text class="c" x="415.2" y="385" text-anchor="middle">Business analyst</text>
+        <rect class="chip" x="494.8" y="366" width="140" height="30" rx="15"/><text class="c" x="564.8" y="385" text-anchor="middle">Data analyst</text>
+        <rect class="chip" x="644.4" y="366" width="140" height="30" rx="15"/><text class="c" x="714.4" y="385" text-anchor="middle">Test analyst</text>
+        <rect class="chip" x="794" y="366" width="140" height="30" rx="15"/><text class="c" x="864" y="385" text-anchor="middle">Technical tester</text>
+        <rect class="chip" x="46" y="404" width="140" height="30" rx="15"/><text class="c" x="116" y="423" text-anchor="middle">Database developer</text>
+        <rect class="chip" x="195.6" y="404" width="140" height="30" rx="15"/><text class="c" x="265.6" y="423" text-anchor="middle">Big data engineer</text>
+        <rect class="chip" x="345.2" y="404" width="140" height="30" rx="15"/><text class="c" x="415.2" y="423" text-anchor="middle">Test manager</text>
+        <rect class="chip" x="494.8" y="404" width="140" height="30" rx="15"/><text class="c" x="564.8" y="423" text-anchor="middle">Release manager</text>
+        <rect class="chip-a" x="644.4" y="404" width="140" height="30" rx="15"/><text class="c acc" x="714.4" y="423" text-anchor="middle">Security analyst</text>
+        <rect class="chip-a" x="794" y="404" width="140" height="30" rx="15"/><text class="c acc" x="864" y="423" text-anchor="middle">Security engineer</text>
+
+        <!-- GLPI -->
+        <line class="arr" x1="490" y1="452" x2="490" y2="498" marker-end="url(#ah1)"/>
+        <text class="lab" x="498" y="480">the role that acts records it</text>
+
+        <rect class="box" x="30" y="500" width="930" height="120" rx="8"/>
+        <text class="t" x="46" y="524">GLPI: the administration of the IT organisation</text>
+        <rect class="inner" x="46" y="540" width="286" height="62" rx="6"/>
+        <text class="t" x="60" y="564">CMDB</text>
+        <text class="s" x="60" y="584">assets and the business flows they serve</text>
+        <rect class="inner" x="347" y="540" width="286" height="62" rx="6"/>
+        <text class="t" x="361" y="564">ITIL records</text>
+        <text class="s" x="361" y="584">changes, incidents, service requests</text>
+        <rect class="inner" x="648" y="540" width="296" height="62" rx="6"/>
+        <text class="t" x="662" y="564">ISO 27001</text>
+        <text class="s" x="662" y="584">procedures and the evidence for them</text>
+      </svg>
+    </div>
+    <figcaption>The whole collaboration runs through stored messages. People and agents publish to the same topics, the modeling agent turns what it reads into shared interfaces, and every role records what it did in GLPI. Every model call in this picture goes through the model gateway shown further down.</figcaption>
+  </figure>
+
+  <section class="col">
+    <h2>What each part does</h2>
+    <ul>
+      <li><strong>Own session.</strong> Every hacker works in an own account on the server with an own Mistral Vibe session. A session can publish messages and receives the ones meant for it.</li>
+      <li><strong>Messaging.</strong> Topics work like conversations. Everything is stored, so a message can be read back later, by a person on the board or by an agent that joins late.</li>
+      <li><strong>The agile modeling agent.</strong> It is a negotiator between our parts. It picks up interface definitions, maps them to each other and says who is affected when one changes. One of us drives it; everyone can talk to it from their own session.</li>
+      <li><strong>IT roles.</strong> Each role is an agent that follows the topics that matter to it. The person behind the role sets its mandate, and corrects it after catching up.</li>
+      <li><strong>GLPI.</strong> The assets we build and the way they relate, every change, incident and request, and the procedures with their evidence. This is what makes the team look like a managed IT environment to an auditor.</li>
+    </ul>
+  </section>
+
+  <section class="col">
+    <h2>Models and data protection</h2>
+    <p>AI is used inside EU jurisdiction. Personal and sensitive data is handled by EU models only. A stronger model from elsewhere can be plugged in for a hard task, but it only ever receives a sanitised version.</p>
+  </section>
+
+  <figure>
+    <div class="frame">
+      <svg class="dg" viewBox="0 0 980 372" role="img" aria-label="Every model call from a session or an agent goes to a LiteLLM gateway inside the EU, which logs it in a register. A sanitation layer that runs on EU models only checks the call. Sensitive data goes to Mistral models and stays in the EU. Only a sanitised version, with personal data replaced by placeholders, goes out through OpenRouter to other models.">
+        <defs>
+          <marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0 L10 5 L0 10 z"/></marker>
+        </defs>
+
+        <rect class="outer" x="10" y="10" width="660" height="350" rx="14"/>
+        <text class="s" x="28" y="34">EU jurisdiction: everything we run, and the Mistral models</text>
+        <rect class="outer dash" x="760" y="10" width="210" height="350" rx="14"/>
+        <text class="s" x="776" y="34">Outside the EU</text>
+
+        <rect class="box" x="30" y="130" width="150" height="74" rx="8"/>
+        <text class="t" x="44" y="160">Sessions, agents</text>
+        <text class="s" x="44" y="179">every model call</text>
+
+        <line class="arr" x1="182" y1="167" x2="203" y2="167" marker-end="url(#ah3)"/>
+
+        <rect class="box-p" x="205" y="110" width="200" height="114" rx="8"/>
+        <text class="t" x="219" y="136">LiteLLM gateway</text>
+        <text class="s" x="219" y="158">one door for all model calls</text>
+        <text class="s" x="219" y="176">routes and meters</text>
+        <text class="s" x="219" y="194">logs every call</text>
+
+        <line class="arr" x1="407" y1="140" x2="428" y2="113" marker-end="url(#ah3)"/>
+
+        <rect class="box-p" x="430" y="50" width="225" height="110" rx="8"/>
+        <text class="t" x="444" y="76">Sanitation layer</text>
+        <text class="s" x="444" y="97">finds personal, sensitive data</text>
+        <text class="s" x="444" y="115">replaces it with placeholders</text>
+        <text class="lab acc" x="444" y="140">runs on EU models only</text>
+
+        <line class="arr" x1="542" y1="162" x2="542" y2="208" marker-end="url(#ah3)"/>
+        <text class="lab" x="550" y="189">sensitive data</text>
+
+        <rect class="box" x="430" y="210" width="225" height="70" rx="8"/>
+        <text class="t" x="444" y="238">Mistral models</text>
+        <text class="s" x="444" y="257">sensitive data stays here</text>
+
+        <line class="arr" x1="305" y1="226" x2="305" y2="268" marker-end="url(#ah3)"/>
+        <text class="lab" x="313" y="251">logs every call</text>
+
+        <rect class="box" x="205" y="270" width="200" height="74" rx="8"/>
+        <text class="t" x="219" y="296">Register</text>
+        <text class="s" x="219" y="315">what went to which model,</text>
+        <text class="s" x="219" y="332">for which role and purpose</text>
+
+        <line class="arr" x1="657" y1="102" x2="773" y2="102" marker-end="url(#ah3)"/>
+        <text class="lab" x="715" y="94" text-anchor="middle">sanitised only</text>
+
+        <rect class="box dash" x="775" y="70" width="180" height="64" rx="8"/>
+        <text class="t" x="789" y="97">OpenRouter</text>
+        <text class="s" x="789" y="116">plug for other models</text>
+
+        <line class="arr" x1="865" y1="136" x2="865" y2="188" marker-end="url(#ah3)"/>
+
+        <rect class="box dash" x="775" y="190" width="180" height="64" rx="8"/>
+        <text class="t" x="789" y="217">Frontier models</text>
+        <text class="s" x="789" y="236">for tasks that need them</text>
+      </svg>
+    </div>
+    <figcaption>No session or agent calls a model directly. The sanitation layer decides what a call may contain before it goes anywhere. Answers come back the same way, and the placeholders are replaced by the real values inside the EU.</figcaption>
+  </figure>
+
+  <section class="col">
+    <h2>What this gives us</h2>
+    <ul>
+      <li><strong>One door.</strong> All model calls go through one gateway on our own server (LiteLLM). It knows which role is asking, for what, and which model answers.</li>
+      <li><strong>Sensitive data stays in the EU.</strong> It goes to EU models only, and the sanitation layer itself runs on EU models only. No party outside the EU receives it, so no authority outside the EU can demand it there.</li>
+      <li><strong>Other models stay possible.</strong> For a task that needs a stronger model, names and other identifying data are replaced by placeholders, and only that version leaves, through OpenRouter.</li>
+      <li><strong>The right to know.</strong> Every call is in the register. Together with the stored messages it answers the question: what happened with my data?</li>
+      <li><strong>The right of deletion.</strong> Everything that holds personal data is in systems we run in the EU: the messages, the register, GLPI. It can be deleted or made anonymous there. What left the EU held no personal data.</li>
+      <li><strong>Between people.</strong> Each person's work stays in an own session, and the parts meet through interface definitions: a team shares the shape of its data and keeps the data itself.</li>
+    </ul>
+    <p class="note">This covers the main GDPR rights reasonably for a hackathon. It is a design, not a legal review.</p>
+  </section>
+
+  <figure>
+    <div class="frame">
+      <svg class="dg" viewBox="0 0 980 420" role="img" aria-label="Three layers. At the top the factoryfactory: the generic IT organisation. It is replicated into factories, one per application domain, each adding the knowledge and policy of that domain. A factory builds and runs an application, where people without IT knowledge talk to agents. Wishes and incidents flow back up as messages.">
+        <defs>
+          <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0 L10 5 L0 10 z"/></marker>
+        </defs>
+
+        <text class="t" x="20" y="58">Top</text>
+        <text class="s" x="20" y="76">what the hackathon builds</text>
+        <rect class="box-p" x="220" y="20" width="740" height="90" rx="8"/>
+        <text class="t" x="236" y="54">Factoryfactory</text>
+        <text class="s" x="236" y="76">the generic IT organisation: roles, messaging, GLPI, single sign-on, security review</text>
+
+        <line class="arr" x1="462" y1="112" x2="462" y2="158" marker-end="url(#ah2)"/>
+        <text class="lab" x="472" y="140">replicated, plus the policy of a domain</text>
+        <line class="arr dash" x1="845" y1="112" x2="845" y2="158" marker-end="url(#ah2)"/>
+
+        <text class="t" x="20" y="198">Middle</text>
+        <text class="s" x="20" y="216">one per application domain</text>
+        <rect class="box" x="220" y="160" width="485" height="90" rx="8"/>
+        <text class="t" x="236" y="194">Factory: the product we build at the hackathon</text>
+        <text class="s" x="236" y="216">project organisation plus the knowledge and policy of one domain</text>
+        <rect class="box dash" x="730" y="160" width="230" height="90" rx="8"/>
+        <text class="t" x="746" y="194">Factory: another domain</text>
+        <text class="s" x="746" y="216">same organisation, other policy</text>
+
+        <line class="arr" x1="380" y1="252" x2="380" y2="298" marker-end="url(#ah2)"/>
+        <text class="lab" x="390" y="280">builds and runs</text>
+        <line class="arr" x1="560" y1="298" x2="560" y2="252" marker-end="url(#ah2)"/>
+        <text class="lab" x="570" y="280">wishes, incidents</text>
+        <line class="arr dash" x1="845" y1="252" x2="845" y2="298" marker-end="url(#ah2)"/>
+
+        <text class="t" x="20" y="342">Goal</text>
+        <text class="s" x="20" y="360">where people use it</text>
+        <rect class="box" x="220" y="300" width="485" height="100" rx="8"/>
+        <text class="t" x="236" y="330">Application: for people who need no IT knowledge</text>
+        <text class="s" x="236" y="352">they talk to a business analyst, a client happiness manager, helpers</text>
+        <text class="s" x="236" y="370">and their own agent, which can represent them</text>
+        <rect class="box dash" x="730" y="300" width="230" height="100" rx="8"/>
+        <text class="t" x="746" y="330">Its applications</text>
+      </svg>
+    </div>
+    <figcaption>The organisation of the first drawing is the top layer. Copied once and given the policy of a domain, it becomes a factory. The factory builds the application that people actually use. Dashed boxes show that the same copy works for any other domain.</figcaption>
+  </figure>
+
+  <section class="col">
+    <h2>Build order at the hackathon</h2>
+    <p>Each step works on its own and is the ground for the next.</p>
+  </section>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th></th><th>Step</th><th>Done when</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td><strong>A Vibe session for everyone</strong></td><td>Each person runs Mistral Vibe in their own account on the server.</td></tr>
+        <tr><td class="n">2</td><td><strong>The model gateway and the sanitation layer</strong></td><td>A text with a name in it reaches a model outside the EU without the name, the answer comes back with the name in place, and the register shows both calls.</td></tr>
+        <tr><td class="n">3</td><td><strong>Messaging and the board</strong></td><td>A message published in one session arrives in another, shows on the board, and can be replayed later.</td></tr>
+        <tr><td class="n">4</td><td><strong>The agile modeling agent</strong></td><td>It picks up two interface definitions, maps them, reports the impact of a change to the people affected, and writes the result to GitHub.</td></tr>
+        <tr><td class="n">5</td><td><strong>IT roles and GLPI</strong></td><td>The change of step 4 stands in GLPI as a change, linked to the assets it touches and reviewed by the security role.</td></tr>
+        <tr><td class="n">6</td><td><strong>One factory, one product</strong></td><td>The same setup, given the policy of one domain, is used to build the product the team chooses.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="col">
+    <h2>Ready before we start</h2>
+    <ul>
+      <li>An empty Linux server (Debian 12, 8 cores, 32 GB memory, 300 GB disk) with git and internet access, separated from everything else.</li>
+      <li>An account of your own on it, after one login with a Google account and a role code from the organiser. No Google account? Send the organiser your public ssh key.</li>
+    </ul>
+    <p class="note">Nothing else is installed. Steps 1 to 6 are the hackathon.</p>
+  </section>
+
+  <section class="col">
+    <h2>Questions for the team</h2>
+    <ul>
+      <li><strong>Which messaging software?</strong> It has to store and replay messages, group them in topics, offer a board in the browser, and let agents connect. Candidates to compare on the first morning: a chat server with topics and a bot interface, such as Zulip, Matrix or Mattermost, or a message broker with a stored log, such as NATS JetStream, with a small board of our own.</li>
+      <li><strong>Whose GitHub account does the modeling agent write with?</strong> A token for one repository only would keep that small.</li>
+      <li><strong>Where does GLPI run?</strong> A fresh one on the hackathon server, or an existing one that the server would first have to be allowed to reach.</li>
+      <li><strong>What counts as sensitive?</strong> The sanitation layer needs one list we all agree on: names, contact details, health and financial data, and what else.</li>
+      <li><strong>Does Mistral's agreement cover what we promise?</strong> To check: its processing agreement, that our data is not used for training, how long it is kept, and where it is processed.</li>
+      <li><strong>Can each Vibe session send its calls through the gateway?</strong> If not, a session talks to Mistral directly and only the agents use the gateway.</li>
+      <li><strong>Which product do we build in step 5?</strong></li>
+    </ul>
+  </section>
+  <footer class="col"><p class="note">Source, and the place to react: <a href="https://github.com/bvd/factory-factory-mistral-hackaton">github.com/bvd/factory-factory-mistral-hackaton</a></p></footer>
+</div>
+</body>
+</html>
