@@ -4,6 +4,8 @@ A proposal for the Mistral hackathon. Read the first screen to decide whether yo
 
 The same proposal as a web page, with the drawings laid out by hand: https://bvd.github.io/factory-factory-mistral-hackaton/
 
+Already decided to join? [Getting started](GETTING-STARTED.md) takes you onto the server and into your first Vibe session.
+
 ## In one minute
 
 - **What we build.** A way for a team to work together on one Linux server: each person in an own Mistral Vibe session, connected by a messaging system, with an agent that negotiates the interfaces between everyone's parts.
@@ -134,7 +136,7 @@ Each step works on its own and is the ground for the next.
 
 | | Step | Done when |
 |---|---|---|
-| 1 | **A Vibe session for everyone** | Each person runs Mistral Vibe in their own account on the server. |
+| 1 | **A Vibe session for everyone** | Each person runs Mistral Vibe in their own account on the server. [Getting started](GETTING-STARTED.md) has the steps. |
 | 2 | **The model gateway and the sanitation layer** | A text with a name in it reaches a model outside the EU without the name, the answer comes back with the name in place, and the register shows both calls. |
 | 3 | **Messaging and the board** | A message published in one session arrives in another, shows on the board, and can be replayed later. |
 | 4 | **The agile modeling agent** | It picks up two interface definitions, maps them, reports the impact of a change to the people affected, and writes the result to GitHub. |
@@ -150,13 +152,16 @@ Nothing else is installed. Steps 1 to 6 are the hackathon.
 
 ## How to join
 
-1. Ask the organiser for a role code and the address.
-2. Log in there with a Google account and redeem the code.
-3. Paste your **public** ssh key (the file that ends in `.pub`). The page shows the command to log in.
+1. Ask the organiser for a role code.
+2. Open https://app.hierax.eu, log in with a Google account and redeem the code.
+3. Under "Hackathon server", choose a user name and paste your **public** ssh key (the file that ends in `.pub`).
+4. Log in: `ssh -p 22180 YOUR-NAME@app.hierax.eu`
 
-No Google account? Send the organiser your public ssh key and you get an account the same way.
+No Google account? Send the organiser your public ssh key and the user name you want.
 
-To push from the server with your own GitHub identity, log in with agent forwarding (`ssh -A`), or put a key of your own on the server. The server is temporary: what is not pushed is gone afterwards.
+[Getting started](GETTING-STARTED.md) has these steps in full, and the next two: starting your Vibe session, and speaking to it from your laptop.
+
+To push to GitHub from the server, make an ssh key on the server and send its public half to the owner of the repository, who adds it as a deploy key with write access. Do not add that key to your whole GitHub account, and do not forward your laptop's ssh agent (`ssh -A`): every teammate is an administrator of the server and could use either. The server is temporary: what is not pushed is gone afterwards.
 
 ## Questions for the team
 
