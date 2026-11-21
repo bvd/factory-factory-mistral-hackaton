@@ -22,30 +22,30 @@ The design leaves room to plug in other models for a task that needs them, but o
 ## How we work together
 
 ```mermaid
+%%{init: {"flowchart": {"wrappingWidth": 420}}}%%
 flowchart TB
   subgraph SESSIONS["Own Vibe session each"]
-    H1["Hacker 1"]
-    H2["Hacker 2"]
-    H3["Hacker 3"]
+    direction LR
+    H1["Hacker 1"] ~~~ H2["Hacker 2"] ~~~ H3["Hacker 3"]
   end
-  MSG[("Messaging<br/>topics work like conversations<br/>every message stored and replayable")]
-  BOARD["Message board in the browser<br/>live messages and the full history"]
+  MSG[("Messaging<br/>topics work like conversations<br/>every message stored and replayable<br/>a board in the browser shows them")]
   AMA["Agile modeling agent<br/>collects interface definitions<br/>maps them to each other<br/>signals the impact of a change"]
   GH["GitHub<br/>interfaces and object models"]
   subgraph ROLES["IT roles as agents"]
-    R1["Product owner<br/>Scrum master<br/>Business analyst<br/>Data analyst"]
-    R2["Test analyst<br/>Technical tester<br/>Test manager<br/>Release manager"]
+    R1["Product owner · Scrum master<br/>Business analyst · Data analyst"]
+    R2["Test analyst · Technical tester<br/>Test manager · Release manager"]
     R3["Database developer<br/>Big data engineer"]
-    SEC["Security analyst<br/>Security engineer<br/>review everything"]
+    SEC["Security analyst · Security engineer<br/>review everything"]
+    R1 ~~~ R3
+    R2 ~~~ SEC
   end
   GLPI["GLPI: the administration<br/>CMDB: assets and the business flows they serve<br/>ITIL records: changes, incidents, service requests<br/>ISO 27001: procedures and the evidence for them"]
 
   SESSIONS <-->|publish and receive| MSG
-  MSG -->|shown on| BOARD
+  SESSIONS -.->|one hacker drives the agent| AMA
   MSG <-->|interfaces in, impact out| AMA
-  H1 -.->|drives the agent| AMA
-  AMA -->|writes, as one participant| GH
   MSG <-->|roles subscribe to topics, publish findings| ROLES
+  AMA -->|writes, as one participant| GH
   ROLES -->|the role that acts records it| GLPI
 
   classDef key stroke-width:3px;
@@ -67,30 +67,27 @@ The whole collaboration runs through stored messages. People and agents publish 
 AI is used inside EU jurisdiction. Personal and sensitive data is handled by EU models only. A stronger model from elsewhere can be plugged in for a hard task, but it only ever receives a sanitised version.
 
 ```mermaid
-flowchart LR
+%%{init: {"flowchart": {"wrappingWidth": 420}}}%%
+flowchart TB
   subgraph EU["Inside the EU"]
-    direction LR
-    AG["Sessions and agents<br/>every model call"]
-    GW["LiteLLM gateway<br/>one door for all model calls<br/>routes, meters and logs every call"]
-    SAN["Sanitation layer<br/>finds personal and sensitive data<br/>replaces it with placeholders<br/>runs on EU models only"]
+    AG["Sessions and agents"]
+    GW["LiteLLM gateway<br/>one door for all model calls"]
+    REG[("Register<br/>every call: role, purpose, model")]
+    SAN["Sanitation layer<br/>runs on EU models only<br/>replaces personal data with placeholders"]
     MIS["Mistral models<br/>sensitive data stays here"]
-    REG[("Register<br/>what went to which model,<br/>for which role and purpose")]
   end
-  subgraph OUT["Outside the EU"]
-    direction TB
-    OR["OpenRouter<br/>plug for other models"]
-    FM["Frontier models<br/>for tasks that need them"]
-  end
+  OR["Outside the EU: OpenRouter<br/>the plug for other models,<br/>for tasks that need them"]
 
-  AG --> GW
-  GW --> SAN
+  AG -->|every model call| GW
   GW -->|logs every call| REG
+  GW --> SAN
   SAN -->|sensitive data| MIS
   SAN -->|sanitised only| OR
-  OR --> FM
 
   classDef key stroke-width:3px;
+  classDef outside stroke-dasharray: 6 4;
   class GW,SAN key;
+  class OR outside;
 ```
 
 No session or agent calls a model directly. The sanitation layer decides what a call may contain before it goes anywhere. Answers come back the same way, and the placeholders are replaced by the real values inside the EU.
@@ -107,10 +104,11 @@ This covers the main GDPR rights reasonably for a hackathon. It is a design, not
 ## Three layers
 
 ```mermaid
+%%{init: {"flowchart": {"wrappingWidth": 420}}}%%
 flowchart TB
   FF["Top: the factoryfactory<br/>the generic IT organisation"]
   F1["Middle: a factory<br/>our hackathon product"]
-  F2["A factory for<br/>another domain"]
+  F2["A factory for another domain"]
   A1["Goal: the application<br/>people talk to agents"]
   A2["Its applications"]
 
