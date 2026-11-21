@@ -108,10 +108,10 @@ This covers the main GDPR rights reasonably for a hackathon. It is a design, not
 
 ```mermaid
 flowchart TB
-  FF["Top: the factoryfactory<br/>the generic IT organisation<br/>roles, messaging, GLPI, single sign-on, security review"]
-  F1["Middle: a factory<br/>the product we build at the hackathon<br/>project organisation plus the knowledge and policy of one domain"]
-  F2["A factory for another domain"]
-  A1["Goal: the application<br/>people who need no IT knowledge talk to agents:<br/>a business analyst, a client happiness manager, helpers,<br/>and their own agent, which can represent them"]
+  FF["Top: the factoryfactory<br/>the generic IT organisation"]
+  F1["Middle: a factory<br/>our hackathon product"]
+  F2["A factory for<br/>another domain"]
+  A1["Goal: the application<br/>people talk to agents"]
   A2["Its applications"]
 
   FF -->|replicated, plus the policy of a domain| F1
@@ -124,7 +124,11 @@ flowchart TB
   class FF key;
 ```
 
-The organisation of the first drawing is the top layer. Copied once and given the policy of a domain, it becomes a factory. The factory builds the application that people actually use. The dashed boxes show that the same copy works for any other domain.
+- **Top: the factoryfactory.** The organisation of the first drawing: roles, messaging, GLPI, single sign-on and security review, without any domain.
+- **Middle: a factory.** The same organisation, copied once and given the knowledge and policy of one domain. This is where project organisation meets a business domain, and where we build our hackathon product.
+- **Goal: the application.** People who need no IT knowledge talk to agents: a business analyst, a client happiness manager, helpers, and their own agent, which can represent them.
+
+The dashed boxes show that the same copy works for any other domain.
 
 ## Build order
 
