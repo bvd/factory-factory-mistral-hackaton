@@ -1,5 +1,7 @@
 # Getting started
 
+> **22 November 2026:** the hackathon server has been removed, so the address and the account page below no longer work. The page is kept as a record: the same steps work on any Debian server you can reach over ssh.
+
 Three steps take you from nothing to talking with your own agent on the server:
 
 1. [Connect to the server](#1-connect-to-the-server)

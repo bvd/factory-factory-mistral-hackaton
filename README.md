@@ -6,6 +6,8 @@ The same proposal as a web page, with the drawings laid out by hand: https://bvd
 
 Already decided to join? [Getting started](GETTING-STARTED.md) takes you onto the server and into your first Vibe session.
 
+> **22 November 2026:** the hackathon server has been removed. The login steps below and in Getting started no longer lead anywhere. They are kept as a record of how it worked.
+
 ## In one minute
 
 - **What we build.** A way for a team to work together on one Linux server: each person in an own Mistral Vibe session, connected by a messaging system, with an agent that negotiates the interfaces between everyone's parts.
